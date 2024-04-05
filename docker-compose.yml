@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8989:8080" # Map port 8989 on the host to port 8080 in the container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/dockerdemo # MySQL container hostname instead of localhost
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Shubham987@!
+    depends_on:
+      - mysql # Ensure that the MySQL container starts before the application container
+    networks:
+      - my_network # Add both services to the same network
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Shubham987@! # Set your MySQL root password
+      MYSQL_DATABASE: dockerdemo # Create a database named dockerdemo
+    volumes:
+      - mysql-data:/var/lib/mysql # Persist MySQL data
+    networks:
+      - my_network # Add both services to the same network
+
+volumes:
+  mysql-data:
+
+networks:
+  my_network: # Define a custom network

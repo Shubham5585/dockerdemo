@@ -12,7 +12,6 @@ import java.util.Optional;
 public class edetails
 {
 
-
     @GetMapping("/Test")
     public   String  testing ( )
     {
